@@ -1,0 +1,1 @@
+ALTER TABLE "employees" ALTER COLUMN "age" DROP NOT NULL;
