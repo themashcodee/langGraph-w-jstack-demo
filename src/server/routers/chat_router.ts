@@ -2,7 +2,7 @@ import { employees } from "@/server/db/schema"
 import { desc } from "drizzle-orm"
 import { z } from "zod"
 import { j, public_procedure } from "../jstack"
-import { processMessage } from "../agent"
+import { process_message } from "../agent"
 
 export const chat_router = j.router({
 	message: public_procedure
@@ -15,7 +15,7 @@ export const chat_router = j.router({
 			const threadId = Math.random().toString(36).substring(7)
 
 			// Process the message using our agent, passing the db instance
-			const response = await processMessage(message, threadId, db)
+			const response = await process_message(message, threadId, db)
 
 			return c.superjson({ response })
 		}),

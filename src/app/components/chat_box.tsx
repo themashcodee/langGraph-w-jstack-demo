@@ -54,7 +54,7 @@ export const ChatBox = () => {
 				className="flex flex-col gap-4"
 			>
 				<textarea
-					placeholder="What would you like to know about your workforce?"
+					placeholder="e.g. What's the average salary of employees in the marketing department?"
 					value={message}
 					rows={3}
 					onChange={(e) => setMessage(e.target.value)}
