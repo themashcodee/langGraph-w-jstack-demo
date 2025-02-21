@@ -28,4 +28,5 @@ const databaseMiddleware = j.middleware(async ({ c, next }) => {
  *
  * This is the base piece you use to build new queries and mutations on your API.
  */
-export const publicProcedure = j.procedure.use(databaseMiddleware)
+export const public_procedure = j.procedure.use(databaseMiddleware)
+export type DB = Awaited<ReturnType<typeof databaseMiddleware>>["db"]

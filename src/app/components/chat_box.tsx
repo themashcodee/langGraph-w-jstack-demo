@@ -3,23 +3,32 @@
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { client } from "@/lib/client"
+import toast from "react-hot-toast"
+import { MessageContent } from "@langchain/core/messages"
+import { MessageContentRenderer } from "./message_content_renderer"
 
 export const ChatBox = () => {
 	const [message, setMessage] = useState<string>("")
+	const [content, setContent] = useState<MessageContent | null>(null)
 
 	const { mutate: send_message, isPending } = useMutation({
 		mutationFn: async ({ message }: { message: string }) => {
-			const res = await client.chat.create.$post({ name: "hello" })
+			const res = await client.chat.message.$post({ message })
 			return await res.json()
 		},
-		onSuccess: async () => {
+		onSuccess: async (data) => {
 			setMessage("")
+			setContent(data.response)
+			console.log({ response: data.response })
+		},
+		onError: (error) => {
+			console.log(error)
+			toast.error("An error occurred while sending the message")
 		},
 	})
 
 	const handleSubmit = () => {
-		if (!message) return
-
+		if (!message) return toast.error("Please enter a message")
 		send_message({ message })
 	}
 
@@ -56,9 +65,16 @@ export const ChatBox = () => {
 					type="submit"
 					className="self-end rounded-lg text-base/6 ring-2 ring-offset-2 ring-offset-black/80 focus-visible:outline-none focus-visible:ring-emerald-500 ring-transparent hover:ring-emerald-500 px-8 py-2.5 bg-emerald-500 text-zinc-900 font-medium transition hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-not-allowed"
 				>
-					{isPending ? "Processing..." : "Ask Assistant"}
+					{isPending ? "Thinking..." : "Ask Assistant"}
 				</button>
 			</form>
+
+			{content && (
+				<div className="flex flex-col gap-10 pt-4">
+					<div className="w-full h-[1px] bg-zinc-800"></div>
+					<MessageContentRenderer content={content} />
+				</div>
+			)}
 		</div>
 	)
 }
