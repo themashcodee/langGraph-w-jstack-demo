@@ -4,6 +4,10 @@
 
 A personal project exploring AI-powered employee management using JStack, LangGraph, and LangSmith. This demo showcases how to build an intelligent agent that can query and analyze employee data through natural language interactions.
 
+https://github.com/user-attachments/assets/ad9ea353-d4d4-4507-88ab-c5828fb31f26
+
+
+
 ## Features
 
 - **AI-Powered Assistant**: Natural language interface for querying employee data
